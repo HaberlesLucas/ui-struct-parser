@@ -1,73 +1,25 @@
-# React + TypeScript + Vite
+# UI-Struct: Analizador Léxico-Sintáctico
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Proyecto desarrollado en **React + TypeScript + Vite** para el Trabajo Integrador de la asignatura Teoría de la Computación. Consiste en una herramienta interactiva para validar y parsear estructuras jerárquicas de interfaces gráficas.
 
-Currently, two official plugins are available:
+## Requisitos previos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Asegurate de tener instalada una versión reciente de **Node.js** (se recomienda la versión **v24 LTS** o superior) para evitar problemas de compatibilidad en el entorno local.
 
-## React Compiler
+## Instalación y ejecución
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Sigue estos pasos en tu terminal para levantar el entorno de desarrollo:
 
-## Expanding the ESLint configuration
+**1. Clonar el repositorio:**
+    git clone https://github.com/HaberlesLucas/ui-struct-parser.git
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**2. Acceder a la carpeta del proyecto:**
+    cd ui-struct-parser
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**3. Instalar las dependencias:**
+    npm install
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+**4. Iniciar el servidor de desarrollo:**
+    npm run dev
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Una vez ejecutado el último comando, la terminal te indicará la URL local (por lo general `http://localhost:5173/`) donde podrás abrir la interfaz de la aplicación desde tu navegador.
