@@ -76,6 +76,7 @@ export class Lexer {
             // Los saltos de línea actualizan el contador de línea/columna.
             if (/\s/.test(char)) {
                 if (char === '\n') {
+                    // \n: sirve para contar líneas, pero no se incluye como token
                     this.line++;
                     this.column = 1;
                 } else {

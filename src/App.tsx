@@ -607,7 +607,7 @@ function EmptyState({ message, icon }: { message: string; icon?: string }) {
 }
 
 function LineNumbers({ code }: { code: string }) {
-  const lines = code.split("\n");
+  const lines = code.split("\n"); // Contar líneas por salto de línea
   return (
     <div
       style={{
