@@ -247,7 +247,7 @@ function TabErrores({
       <EstadoVacio
         icono="✓"
         color="#22c55e"
-        mensaje="Sin errores — la estructura es sintácticamente válida"
+        mensaje="Sin errores — la estructura es semántica y sintácticamente válida"
       />
     );
   }
@@ -257,25 +257,27 @@ function TabErrores({
       {lexerErrors.map((e, i) => (
         <TarjetaError key={`lex-${i}`} tipo="LÉXICO" error={e} />
       ))}
+      {/* Acá mapeamos el nivel exacto que viene del parser (Sintáctico o Semántico) */}
       {parseErrors.map((e, i) => (
-        <TarjetaError key={`par-${i}`} tipo="SINTÁCTICO" error={e} />
+        <TarjetaError key={`par-${i}`} tipo={e.nivel} error={e} />
       ))}
     </div>
   );
 }
 
-/**
- * Tarjeta individual de error.
- * El color diferencia errores léxicos (amarillo) de sintácticos (rojo).
- */
 function TarjetaError({
   tipo,
   error,
 }: {
-  tipo: "LÉXICO" | "SINTÁCTICO";
-  error: ErrorItem;
+  tipo: "LÉXICO" | "SINTÁCTICO" | "SEMÁNTICO";
+  error: { message: string; line: number; column: number };
 }) {
-  const color = tipo === "LÉXICO" ? "#f59e0b" : "#ef4444";
+  // Colores: Léxico (Naranja), Sintáctico (Rojo), Semántico (Morado/Lila)
+  const color = 
+    tipo === "LÉXICO" ? "#f59e0b" : 
+    tipo === "SINTÁCTICO" ? "#ef4444" : 
+    "#a855f7"; // Color lila para semántica
+    
   return (
     <div
       className="border-l-[3px] rounded-r-md px-3 py-2"
@@ -283,7 +285,7 @@ function TarjetaError({
     >
       <div className="flex items-center gap-2 mb-1">
         <span
-          className="text-[10px] font-bold px-1.5 py-0.5 rounded"
+          className="text-[10px] font-bold px-1.5 py-0.5 rounded tracking-widest"
           style={{ color, background: color + "22" }}
         >
           {tipo}
