@@ -282,7 +282,6 @@ function App() {
                 fontSize: 11,
                 backgroundColor: "#d9d9d922",
                 borderRadius: 4,
-
               }}
             >
               restablecer ejemplo
@@ -479,6 +478,83 @@ function TabAST({
   );
 }
 
+// function TabErrores({
+//   lexerErrors,
+//   parseErrors,
+// }: {
+//   lexerErrors: LexerError[];
+//   parseErrors: ParseError[];
+// }) {
+//   const total = lexerErrors.length + parseErrors.length;
+//   if (total === 0) {
+//     return (
+//       <EmptyState
+//         message="Sin errores — la estructura es sintácticamente válida ✓"
+//         icon="ok"
+//       />
+//     );
+//   }
+//   return (
+//     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+//       {lexerErrors.map((e, i) => (
+//         <ErrorCard key={`lex-${i}`} tipo="LÉXICO" error={e} />
+//       ))}
+//       {parseErrors.map((e, i) => (
+//         <ErrorCard key={`par-${i}`} tipo="SINTÁCTICO" error={e} />
+//       ))}
+//     </div>
+//   );
+// }
+
+// function ErrorCard({
+//   tipo,
+//   error,
+// }: {
+//   tipo: "LÉXICO" | "SINTÁCTICO";
+//   color?: string;
+//   error: { message: string; line: number; column: number };
+// }) {
+//   const c = tipo === "LÉXICO" ? "#f59e0b" : "#ef4444";
+//   return (
+//     <div
+//       style={{
+//         borderInlineStart: `3px solid ${c}`,
+//         background: c + "11",
+//         borderRadius: "0 6px 6px 0",
+//         padding: "10px 14px",
+//       }}
+//     >
+//       <div
+//         style={{
+//           display: "flex",
+//           alignItems: "center",
+//           gap: 8,
+//           marginBottom: 4,
+//         }}
+//       >
+//         <span
+//           style={{
+//             fontSize: 10,
+//             fontWeight: 700,
+//             color: c,
+//             background: c + "22",
+//             padding: "2px 6px",
+//             borderRadius: 3,
+//           }}
+//         >
+//           {tipo}
+//         </span>
+//         <span style={{ fontSize: 11, color: "#475569" }}>
+//           línea {error.line}, columna {error.column}
+//         </span>
+//       </div>
+//       <p style={{ fontSize: 12, color: "#e2e8f0", margin: 0 }}>
+//         {error.message}
+//       </p>
+//     </div>
+//   );
+// }
+
 function TabErrores({
   lexerErrors,
   parseErrors,
@@ -501,7 +577,12 @@ function TabErrores({
         <ErrorCard key={`lex-${i}`} tipo="LÉXICO" error={e} />
       ))}
       {parseErrors.map((e, i) => (
-        <ErrorCard key={`par-${i}`} tipo="SINTÁCTICO" error={e} />
+        // Utilizamos el nivel dinámico que viene del parser
+        <ErrorCard
+          key={`par-${i}`}
+          tipo={e.nivel as "SINTÁCTICO" | "SEMÁNTICO"}
+          error={e}
+        />
       ))}
     </div>
   );
@@ -511,11 +592,18 @@ function ErrorCard({
   tipo,
   error,
 }: {
-  tipo: "LÉXICO" | "SINTÁCTICO";
+  tipo: "LÉXICO" | "SINTÁCTICO" | "SEMÁNTICO"; // Agregamos SEMÁNTICO al tipado
   color?: string;
   error: { message: string; line: number; column: number };
 }) {
-  const c = tipo === "LÉXICO" ? "#f59e0b" : "#ef4444";
+  // Ajustamos los colores según el tipo
+  const c =
+    tipo === "LÉXICO"
+      ? "#f59e0b"
+      : tipo === "SINTÁCTICO"
+        ? "#ef4444"
+        : "#a855f7"; // Color morado/lila para semántica
+
   return (
     <div
       style={{
@@ -607,7 +695,7 @@ function EmptyState({ message, icon }: { message: string; icon?: string }) {
 }
 
 function LineNumbers({ code }: { code: string }) {
-  const lines = code.split("\n");
+  const lines = code.split("\n"); // Contar líneas por salto de línea
   return (
     <div
       style={{
